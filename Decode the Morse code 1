@@ -3,24 +3,32 @@ std::string decodeMorse(std::string morseCode) {
    std::string decoded;
    std::string word;
    unsigned int spaceCount = 0;
+   bool flag = 0;
      
      for (unsigned int n = 0; morseCode[n]; n++ ) {
+       
+       if (morseCode[n] == ' ' && flag == 0) continue;
+       else flag = 1;
        
        if (morseCode[n] == ' ' ) {
          decoded += MORSE_CODE[word];
          word = "";
          spaceCount++;
-       } else {
-         word += morseCode[n];
-         spaceCount = 0;
-       }
-       if (spaceCount == 3) {
          
-         decoded += " ";
-         spaceCount = 0;
-       }
-     }
-  
+         if (spaceCount == 3) {
+           decoded += " ";
+           spaceCount = 0;
+         }
+       } else {
+           word += morseCode[n];
+           spaceCount = 0;
+       } 
+    }
+        
      decoded += MORSE_CODE[word];
+  
+  while(decoded[decoded.size()] == ' ' ) 
+        decoded.erase(decoded.end() ) ;
+                                                        
   return decoded;
 }
